@@ -1,0 +1,6 @@
+server:
+  port: 8080
+certificate:
+  server:
+    event-url: "https://ieeeihuserres.org"
+    participants-file: "/srv/ieee/event/participants.csv"

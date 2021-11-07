@@ -1,0 +1,6 @@
+server:
+  port: ${SERVER_PORT:-80}
+certificate:
+  server:
+    event-url: "${EVENT_URL:-https://ieeeihuserres.org}"
+    participants-file: "${PARTICIPANT_FILE}"
