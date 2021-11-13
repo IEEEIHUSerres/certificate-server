@@ -5,16 +5,16 @@ spring:
     add-properties: false
 certificate:
   server:
-    event-url: ""
-    participants-file: ""
-    certificate-template: ""
+    event-url: "https://ieeeihuserres.org"
+    participants-file: "/srv/ieee/event/participants.csv"
+    certificate-template: "/srv/ieee/event/certificate.pdf"
     theming:
-      font-size: 0
+      font-size: 40
       color:
-        red: 0
-        green: 0
-        blue: 0
+        red: 37
+        green: 24
+        blue: 80
       text-coordinates:
-        x: 0
-        y: 0
+        x: 400
+        y: 310
         rotation: 0
