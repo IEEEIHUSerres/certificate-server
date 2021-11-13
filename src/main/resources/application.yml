@@ -1,20 +1,17 @@
 server:
   port: 80
-spring:
-  devtools:
-    add-properties: false
 certificate:
   server:
-    event-url: "https://ieeeihuserres.org"
-    participants-file: "/srv/ieee/event/participants.csv"
-    certificate-template: "/srv/ieee/event/certificate.pdf"
+    event-url:
+    participants-file:
+    certificate-template:
     theming:
-      font-size: 40
+      font-size:
       color:
-        red: 37
-        green: 24
-        blue: 80
+        red:
+        green:
+        blue:
       text-coordinates:
-        x: 400
-        y: 310
-        rotation: 0
+        x:
+        y:
+        rotation:
