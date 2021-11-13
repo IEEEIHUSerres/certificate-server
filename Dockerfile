@@ -24,7 +24,7 @@ COPY --from=builder /app/target/certificate-server-0.0.1-SNAPSHOT.jar /opt/ieee/
 
 RUN chmod +x /opt/ieee/ihu/serres/certificate/server/run.sh
 
-ENV ACTIVE_PROFILE="production"
+ENV SPRING_PROFILES_ACTIVE="production"
 
 VOLUME ["/srv/ieee/event/"]
 
