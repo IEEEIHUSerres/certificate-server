@@ -3,7 +3,7 @@ server:
 certificate:
   server:
     event-url: "${EVENT_URL:-https://ieeeihuserres.org}"
-    participants-file: "${PARTICIPANT_FILE}"
+    participants-file: "${PARTICIPANT_FILE:-/srv/ieee/event/participants.csv}"
     certificate-template: "${CERTIFICATE_TEMPLATE:-/srv/ieee/event/certificate.pdf}"
     theming:
       font-size: ${THEMING_FONT_SIZE:-40}

@@ -26,8 +26,9 @@ RUN chmod +x /opt/ieee/ihu/serres/certificate/server/run.sh
 
 ENV ACTIVE_PROFILE="production" \
     SERVER_PORT="80" \
-    EVENT_URL="https://ieeeihuserres.org" \
-    PARTICIPANT_FILE=""
+    EVENT_URL="https://ieeeihuserres.org"
+
+VOLUME ["/srv/ieee/event/"]
 
 ENTRYPOINT ["/opt/ieee/ihu/serres/certificate/server/run.sh"]
 
