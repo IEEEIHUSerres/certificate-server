@@ -1,0 +1,17 @@
+server:
+  port: 8080
+certificate:
+  server:
+    event-url: "https://ieeeihuserres.org"
+    participants-file: "src/main/resources/default/participants.csv"
+    certificate-template: "src/main/resources/default/certificate.pdf"
+    theming:
+      font-size: 40
+      color:
+        red: 37
+        green: 24
+        blue: 80
+      text-coordinates:
+        x: 400
+        y: 310
+        rotation: 0
