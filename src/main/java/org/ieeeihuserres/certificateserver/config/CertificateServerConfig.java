@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.ieeeihuserres.certificateserver.config.model.theming.Theming;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("certificate.server")
+@ConfigurationProperties(prefix = "certificate.server")
 @Getter
 @Setter
 public class CertificateServerConfig {
