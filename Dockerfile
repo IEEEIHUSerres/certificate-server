@@ -3,7 +3,7 @@
 # Build Image: docker build -f Dockerfile -t ieeeihuserres/certificate-server .
 # # ********************************************
 
-FROM maven:3-openjdk-16 as builder
+FROM maven:3-openjdk-8 as builder
 LABEL authors="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 WORKDIR /app
@@ -16,7 +16,7 @@ COPY src ./src
 
 RUN mvn package && rm -fr ~/.m2
 
-FROM openjdk:16-slim as release
+FROM openjdk:8-slim as release
 LABEL authors="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 COPY ./scripts/run.sh /opt/ieee/ihu/serres/certificate/server/run.sh
@@ -26,7 +26,11 @@ RUN chmod +x /opt/ieee/ihu/serres/certificate/server/run.sh
 
 ENV SPRING_PROFILES_ACTIVE="production"
 
-VOLUME ["/srv/ieee/event/"]
+WORKDIR /srv/ieee/event/
+VOLUME ["/srv/ieee/event"]
+
+COPY ./src/main/resources/default/certificate.pdf .
+COPY ./src/main/resources/default/participants.csv .
 
 ENTRYPOINT ["/opt/ieee/ihu/serres/certificate/server/run.sh"]
 
