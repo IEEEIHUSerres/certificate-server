@@ -3,8 +3,8 @@ server:
 certificate:
   server:
     event-url: "https://ieeeihuserres.org"
-    participants-file: "src/main/resources/default/participants.csv"
-    certificate-template: "src/main/resources/default/certificate.pdf"
+    participants-file: "/srv/ieee/event/participants.csv"
+    certificate-template: "/srv/ieee/event/certificate.pdf"
     theming:
       font-size: 40
       color:
