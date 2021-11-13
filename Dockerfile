@@ -24,9 +24,7 @@ COPY --from=builder /app/target/certificate-server-0.0.1-SNAPSHOT.jar /opt/ieee/
 
 RUN chmod +x /opt/ieee/ihu/serres/certificate/server/run.sh
 
-ENV ACTIVE_PROFILE="production" \
-    SERVER_PORT="80" \
-    EVENT_URL="https://ieeeihuserres.org"
+ENV ACTIVE_PROFILE="production"
 
 VOLUME ["/srv/ieee/event/"]
 

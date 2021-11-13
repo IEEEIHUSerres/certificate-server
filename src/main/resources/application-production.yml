@@ -1,17 +1,17 @@
 server:
-  port: ${SERVER_PORT:-80}
+  port: 80
 certificate:
   server:
-    event-url: "${EVENT_URL:-https://ieeeihuserres.org}"
-    participants-file: "${PARTICIPANT_FILE:-/srv/ieee/event/participants.csv}"
-    certificate-template: "${CERTIFICATE_TEMPLATE:-/srv/ieee/event/certificate.pdf}"
+    event-url: "https://ieeeihuserres.org"
+    participants-file: "/srv/ieee/event/participants.csv"
+    certificate-template: "/srv/ieee/event/certificate.pdf"
     theming:
-      font-size: ${THEMING_FONT_SIZE:-40}
+      font-size: 40
       color:
-        red: ${THEMING_COLOR_RED:-37}
-        green: ${THEMING_COLOR_GREEN:-24}
-        blue: ${THEMING_COLOR_BLUE:-80}
+        red: 37
+        green: 24
+        blue: 80
       text-coordinates:
-        x: ${THEMING_TEXT_COORDINATES_X:-400}
-        y: ${THEMING_TEXT_COORDINATES:-310}
-        rotation: ${THEMING_TEXT_COORDINATES_ROTATION:-0}
+        x: 400
+        y: 310
+        rotation: 0
