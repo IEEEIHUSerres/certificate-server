@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/certificates")
 @RequiredArgsConstructor
@@ -27,4 +30,20 @@ public class CertificateController {
                 .get();
     }
 
+    @GetMapping(value = "/check/{eMail}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> checkCertificate(@PathVariable("eMail") String eMail) {
+        return participantService.findParticipant(eMail)
+                .map(participant -> {
+                    final Map<String, String> hashMap = new HashMap<>();
+                    hashMap.put("status", "found");
+                    return hashMap;
+                })
+                .recover(throwable -> {
+                    final Map<String, String> hashMap = new HashMap<>();
+                    hashMap.put("status", "not-found");
+                    return hashMap;
+                })
+                .map(stringStringMap -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(stringStringMap))
+                .get();
+    }
 }
