@@ -2,7 +2,7 @@ server:
   port: 80
 certificate:
   server:
-    event-url: "https://ieeeihuserres.org"
+    event-url: "${EVENT_URL:https://ieeeihuserres.org}"
     participants-file: "/srv/ieee/event/participants.csv"
     certificate-template: "/srv/ieee/event/certificate.pdf"
     theming:
@@ -12,6 +12,6 @@ certificate:
         green: 24
         blue: 80
       text-coordinates:
-        x: 400
-        y: 310
+        x: 420
+        y: 330
         rotation: 0

@@ -24,13 +24,13 @@ COPY --from=builder /app/target/certificate-server-0.0.1-SNAPSHOT.jar /opt/ieee/
 
 RUN chmod +x /opt/ieee/ihu/serres/certificate/server/run.sh
 
-ENV SPRING_PROFILES_ACTIVE="production"
-
 WORKDIR /srv/ieee/event/
 VOLUME ["/srv/ieee/event"]
 
 COPY ./src/main/resources/default/certificate.pdf .
 COPY ./src/main/resources/default/participants.csv .
+
+ENV EVENT_URL="https://ieeeihuserres.org"
 
 ENTRYPOINT ["/opt/ieee/ihu/serres/certificate/server/run.sh"]
 
