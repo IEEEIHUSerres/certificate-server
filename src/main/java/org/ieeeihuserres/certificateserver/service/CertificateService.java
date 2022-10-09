@@ -51,8 +51,8 @@ public class CertificateService {
                 .flatMap(CertificateService::getFileFromFilePathString)
                 .flatMap(pdfTemplateFile -> CertificateService.createTempCertificateFile()
                         .flatMap(tempCertificateFile -> Try.of(() -> {
-                            InputStream inputStream = pdfTemplateFile.toURI().toURL().openStream();
-                            OutputStream outputStream = new FileOutputStream(tempCertificateFile.toFile());
+                            final InputStream inputStream = pdfTemplateFile.toURI().toURL().openStream();
+                            final OutputStream outputStream = Files.newOutputStream(tempCertificateFile.toFile().toPath());
 
                             // Load existing PDF
                             PdfReader reader = new PdfReader(inputStream);

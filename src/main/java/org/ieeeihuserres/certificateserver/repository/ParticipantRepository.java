@@ -6,6 +6,7 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.ieeeihuserres.certificateserver.config.CertificateServerConfig;
 import org.ieeeihuserres.certificateserver.model.Participant;
+import org.ieeeihuserres.certificateserver.util.GreekToLatinMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -33,9 +34,15 @@ public class ParticipantRepository {
                 .flatMap(this::rejectFirstRecordBecauseItHasTitles)
                 .map(io.vavr.collection.List::ofAll)
                 .flatMap(csvRecords -> Try.sequence(
-                                csvRecords.flatMap(strings -> Option.of(strings[0]).toTry())
-                                        .flatMap(s -> Try.of(() -> s.split(";")))
-                                        .map(strings -> Try.of(() -> new Participant(strings[0], strings[1], strings[2])))
+                                csvRecords.flatMap(record -> Option.of(record[0]).toTry())
+                                        .flatMap(record -> Try.of(() -> record.split(";")))
+                                        .map(columns -> Try.of(() -> {
+                                            final GreekToLatinMapper greekToLatinMapper = new GreekToLatinMapper();
+                                            final String firstName = greekToLatinMapper.mapToLatin(columns[0]);
+                                            final String lastName = greekToLatinMapper.mapToLatin(columns[1]);
+                                            final String eMail = columns[2];
+                                            return new Participant(firstName, lastName, eMail);
+                                        }))
                         )
                 )
                 .map(Value::toJavaList)
