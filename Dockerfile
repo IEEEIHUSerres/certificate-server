@@ -4,7 +4,6 @@
 # # ********************************************
 
 FROM maven:3-openjdk-8 as builder
-LABEL authors="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 WORKDIR /app
 
@@ -17,7 +16,7 @@ COPY src ./src
 RUN mvn package && rm -fr ~/.m2
 
 FROM openjdk:8-slim as release
-LABEL authors="Iordanis Kostelidis <kostelidis@ieee.org>"
+LABEL MAINTAINER="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 COPY ./scripts/run.sh /opt/ieee/ihu/serres/certificate/server/run.sh
 COPY --from=builder /app/target/certificate-server-0.0.1-SNAPSHOT.jar /opt/ieee/ihu/serres/certificate/server/certificate-server.jar
