@@ -3,7 +3,7 @@
 # Build Image: docker build -f Dockerfile -t ieeeihuserres/certificate-server .
 # # ********************************************
 
-FROM maven:3-openjdk-8 as builder
+FROM maven:3.10.0-amazoncorretto-8-debian-trixie as builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ COPY src ./src
 
 RUN mvn package && rm -fr ~/.m2
 
-FROM openjdk:8-slim as release
+FROM openjdk:8-alpine3.23-jre as release
 LABEL MAINTAINER="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 COPY ./scripts/run.sh /opt/ieee/ihu/serres/certificate/server/run.sh
