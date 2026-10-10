@@ -15,7 +15,7 @@ import java.util.Collections;
 @ConfigurationPropertiesScan
 public class CertificateServerApplication {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(CertificateServerApplication.class, args);
     }
 

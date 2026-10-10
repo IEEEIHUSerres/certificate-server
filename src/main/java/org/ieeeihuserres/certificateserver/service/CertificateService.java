@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.*;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.ieeeihuserres.certificateserver.config.CertificateServerConfig;
 import org.ieeeihuserres.certificateserver.config.model.theming.Theming;
 import org.ieeeihuserres.certificateserver.model.Participant;
@@ -14,7 +15,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -33,12 +33,9 @@ public class CertificateService {
         return Try.of(() -> Files.createTempFile("certificate", ".pdf"));
     }
 
-    public class Rotate extends PdfPageEventHelper {
+    @Setter
+    public static class Rotate extends PdfPageEventHelper {
         protected PdfNumber rotation = PdfPage.PORTRAIT;
-
-        public void setRotation(PdfNumber rotation) {
-            this.rotation = rotation;
-        }
 
         public void onEndPage(PdfWriter writer, Document document) {
             writer.addPageDictEntry(PdfName.ROTATE, rotation);
@@ -75,7 +72,7 @@ public class CertificateService {
                             // Add your new data / text here
                             addCertificateData(
                                     writer.getDirectContent(),
-                                    String.format("%s %s", participant.getFirstName(), participant.getLastName()),
+                                    String.format("%s %s", participant.firstName(), participant.lastName()),
                                     config.getTheming()
                             );
 

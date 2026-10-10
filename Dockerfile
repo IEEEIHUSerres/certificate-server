@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---------- Build ----------
-FROM maven:3.10.0-amazoncorretto-17-debian-trixie AS builder
+FROM maven:3.10.0-amazoncorretto-25-debian-trixie AS builder
 
 WORKDIR /app
 
@@ -18,11 +18,11 @@ RUN --mount=type=cache,target=/root/.m2 \
 
 # ---------- Runtime ----------
 # Minimal Java runtime with only the modules the app needs (musl build, matches the Alpine release image)
-FROM amazoncorretto:17-alpine3.23 AS runtime
+FROM amazoncorretto:25-alpine3.23 AS runtime
 RUN apk add --no-cache binutils \
  && jlink \
-      --add-modules java.base,java.desktop,java.instrument,java.logging,java.management,java.naming,java.net.http,java.scripting,java.security.jgss,java.sql,java.xml,jdk.crypto.ec,jdk.unsupported,jdk.zipfs \
-      --strip-debug --no-man-pages --no-header-files --compress=2 \
+      --add-modules java.base,java.desktop,java.instrument,java.logging,java.management,java.naming,java.net.http,java.scripting,java.security.jgss,java.sql,java.xml,jdk.unsupported,jdk.zipfs \
+      --strip-debug --no-man-pages --no-header-files --compress=zip-6 \
       --output /jre
 
 # ---------- Release ----------

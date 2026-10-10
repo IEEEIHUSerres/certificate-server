@@ -71,7 +71,7 @@ public class ParticipantRepository {
 
     public Optional<Participant> findByEmail(String email) {
         return participants.stream()
-                .filter(participant -> participant.getEmail().equals(email))
+                .filter(participant -> participant.email().equals(email))
                 .findFirst();
     }
 }
