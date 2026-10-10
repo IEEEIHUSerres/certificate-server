@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---------- Build ----------
-FROM maven:3.10.0-amazoncorretto-11-debian-trixie AS builder
+FROM maven:3.10.0-amazoncorretto-17-debian-trixie AS builder
 
 WORKDIR /app
 
@@ -14,11 +14,11 @@ COPY src ./src
 RUN --mount=type=cache,target=/root/.m2 \
     mvn -B package \
  && cp target/certificate-server-*.jar app.jar \
- && java -Djarmode=layertools -jar app.jar extract --destination extracted
+ && java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 
 # ---------- Runtime ----------
 # Minimal Java runtime with only the modules the app needs (musl build, matches the Alpine release image)
-FROM amazoncorretto:11-alpine3.23 AS runtime
+FROM amazoncorretto:17-alpine3.23 AS runtime
 RUN apk add --no-cache binutils \
  && jlink \
       --add-modules java.base,java.desktop,java.instrument,java.logging,java.management,java.naming,java.net.http,java.scripting,java.security.jgss,java.sql,java.xml,jdk.crypto.ec,jdk.unsupported,jdk.zipfs \
@@ -60,4 +60,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
     CMD nc -z 127.0.0.1 "$SERVER_PORT" || exit 1
 
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
