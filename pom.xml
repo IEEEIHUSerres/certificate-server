@@ -83,6 +83,27 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- Exposes ${org.mockito:mockito-core:jar} so Mockito can be loaded as a Java agent -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- JDK 21+ warns when Mockito self-attaches; load it as an agent instead.
+                 -Xshare:off silences the CDS warning caused by its bootstrap classpath append. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
