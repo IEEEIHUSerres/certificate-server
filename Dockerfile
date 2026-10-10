@@ -3,7 +3,7 @@
 # Build Image: docker build -f Dockerfile -t ieeeihuserres/certificate-server .
 # # ********************************************
 
-FROM maven:3.10.0-amazoncorretto-8-debian-trixie as builder
+FROM maven:3.10.0-amazoncorretto-11-debian-trixie AS builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ COPY src ./src
 
 RUN mvn package && rm -fr ~/.m2
 
-FROM amazoncorretto:8-alpine3.23-jre as release
+FROM amazoncorretto:11-alpine3.23 AS release
 LABEL MAINTAINER="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 COPY ./scripts/run.sh /opt/ieee/ihu/serres/certificate/server/run.sh
