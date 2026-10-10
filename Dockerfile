@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---------- Build ----------
-FROM maven:3.10.0-amazoncorretto-17-debian-trixie AS builder
+FROM maven:3-amazoncorretto-25-debian-trixie AS builder
 
 WORKDIR /app
 
