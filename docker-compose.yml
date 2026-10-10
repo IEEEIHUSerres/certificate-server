@@ -1,0 +1,65 @@
+name: certificate-${EVENT:?EVENT is required}
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+    compress: "true"
+
+services:
+  server:
+    image: ${IMAGE:-ghcr.io/ieeeihuserres/certificate-server}:${IMAGE_TAG:-latest}
+    container_name: certificate-${EVENT}-server
+    restart: unless-stopped
+    stop_grace_period: 30s
+    # Spring Boot only needs /tmp (Tomcat's work directory); the rest stays read-only.
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      TZ: "${TZ:-Europe/Athens}"
+      # Map syntax: with the list form (- KEY="value") the quotes become part of
+      # the value, and Spring would look for a profile literally named "wei4h".
+      SPRING_PROFILES_ACTIVE: "${EVENT}"
+      # Behind Traefik: trust X-Forwarded-* so generated links use https://DOMAIN.
+      SERVER_FORWARD_HEADERS_STRATEGY: framework
+      # Heap as a share of the memory limit, leaving room for metaspace and threads.
+      JAVA_TOOL_OPTIONS: "-XX:MaxRAMPercentage=${JAVA_HEAP_PERCENT:-60}"
+    volumes:
+      # Event data (participants, templates). Read-only: the server only reads it.
+      - ${EVENT_DATA_PATH:?EVENT_DATA_PATH is required}:/srv/ieee/event:ro
+    networks:
+      - server
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          # noinspection ComposeUnknownValues
+          cpus: "${SERVER_CPU_LIMIT:-1}"
+          # noinspection ComposeUnknownValues
+          memory: "${SERVER_MEMORY_LIMIT:-768M}"
+          # Counts JVM threads too.
+          # noinspection ComposeUnknownValues
+          pids: ${SERVER_PIDS_LIMIT:-512}
+        reservations:
+          # noinspection ComposeUnknownValues
+          memory: "${SERVER_MEMORY_RESERVATION:-256M}"
+    labels:
+      - "traefik.enable=true"
+      # Router
+      - "traefik.http.routers.certificate-${EVENT}.rule=Host(`${DOMAIN:?DOMAIN is required}`)"
+      - "traefik.http.routers.certificate-${EVENT}.entrypoints=websecure"
+      - "traefik.http.routers.certificate-${EVENT}.service=certificate-${EVENT}"
+      # Public: participants download their certificates from anywhere.
+      - "traefik.http.routers.certificate-${EVENT}.middlewares=strict-path@file"
+      # Service
+      - "traefik.http.services.certificate-${EVENT}.loadbalancer.server.port=8080"
+
+networks:
+  server:
+    name: certificate-${EVENT}-server
