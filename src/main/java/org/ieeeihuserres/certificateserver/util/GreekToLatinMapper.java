@@ -1,8 +1,6 @@
 package org.ieeeihuserres.certificateserver.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GreekToLatinMapper {
@@ -51,30 +49,36 @@ public class GreekToLatinMapper {
 
 
     public String mapToLatin(final String greek) {
-        return arrayToList(greek.toCharArray())
-                .stream()
-                .map(character -> {
-                    final String characterAsString = String.valueOf(character);
-                    if (!(characterMap.containsKey(characterAsString.toLowerCase()))) {
-                        return characterAsString;
-                    }
-
-                    final String latin = characterMap.get(characterAsString.toLowerCase());
-
-                    if (Character.isUpperCase(character)) {
-                        return latin.toUpperCase();
-                    }
-                    return latin;
-                })
-                .reduce(String::concat)
-                .orElse("");
+        final StringBuilder latin = new StringBuilder();
+        for (int i = 0; i < greek.length(); i++) {
+            latin.append(mapCharacter(greek, i));
+        }
+        return latin.toString();
     }
 
-    private List<Character> arrayToList(char[] toCharArray) {
-        final List<Character> res = new ArrayList<>();
-        for (char charToMap : toCharArray) {
-            res.add(charToMap);
+    private String mapCharacter(final String greek, final int index) {
+        final char character = greek.charAt(index);
+        final String latin = characterMap.get(String.valueOf(character).toLowerCase());
+
+        if (latin == null) {
+            return String.valueOf(character);
         }
-        return res;
+        if (!Character.isUpperCase(character)) {
+            return latin;
+        }
+        if (latin.length() == 1 || isInUpperCaseWord(greek, index)) {
+            return latin.toUpperCase();
+        }
+        // Title case for multi-letter mappings inside regular words, e.g. Θεόδωρος -> Theodoros
+        return Character.toUpperCase(latin.charAt(0)) + latin.substring(1);
+    }
+
+    private boolean isInUpperCaseWord(final String text, final int index) {
+        if (index + 1 < text.length() && Character.isLetter(text.charAt(index + 1))) {
+            return Character.isUpperCase(text.charAt(index + 1));
+        }
+        return index > 0
+                && Character.isLetter(text.charAt(index - 1))
+                && Character.isUpperCase(text.charAt(index - 1));
     }
 }
