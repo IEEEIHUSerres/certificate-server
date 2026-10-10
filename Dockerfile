@@ -15,7 +15,7 @@ COPY src ./src
 
 RUN mvn package && rm -fr ~/.m2
 
-FROM openjdk:8-alpine3.23-jre as release
+FROM amazoncorretto:8-alpine3.23-jre as release
 LABEL MAINTAINER="Iordanis Kostelidis <kostelidis@ieee.org>"
 
 COPY ./scripts/run.sh /opt/ieee/ihu/serres/certificate/server/run.sh
