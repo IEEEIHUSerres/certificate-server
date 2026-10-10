@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.ieeeihuserres</groupId>
     <artifactId>certificate-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>certificate-server</name>
     <description>certificate-server</description>
     <properties>
