@@ -26,7 +26,7 @@ RUN apk add --no-cache binutils \
       --output /jre
 
 # ---------- Release ----------
-FROM alpine:3.23 AS release
+FROM alpine:3.24 AS release
 LABEL org.opencontainers.image.title="certificate-server" \
       org.opencontainers.image.authors="Iordanis Kostelidis <kostelidis@ieee.org>" \
       org.opencontainers.image.source="https://github.com/IEEEIHUSerres/certificate-server"
