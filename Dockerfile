@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/root/.m2 \
 
 # ---------- Runtime ----------
 # Minimal Java runtime with only the modules the app needs (musl build, matches the Alpine release image)
-FROM amazoncorretto:25-alpine3.23 AS runtime
+FROM amazoncorretto:27-alpine3.23 AS runtime
 RUN apk add --no-cache binutils \
  && jlink \
       --add-modules java.base,java.desktop,java.instrument,java.logging,java.management,java.naming,java.net.http,java.scripting,java.security.jgss,java.sql,java.xml,jdk.unsupported,jdk.zipfs \
