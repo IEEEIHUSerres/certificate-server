@@ -9,7 +9,7 @@ x-logging: &default-logging
 
 services:
   server:
-    image: ${IMAGE:-ghcr.io/ieeeihuserres/certificate-server}:${IMAGE_TAG:-latest}
+    image: ghcr.io/ieeeihuserres/certificate-server:v1.0.1
     container_name: certificate-${EVENT}-server
     restart: unless-stopped
     stop_grace_period: 30s
